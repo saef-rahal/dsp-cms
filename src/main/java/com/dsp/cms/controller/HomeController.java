@@ -16,4 +16,9 @@ public class HomeController {
         return "Home";
     }
 
+    @GetMapping("index")
+    public String getHomeDesign(){
+        return "home-design";
+    }
+
 }
