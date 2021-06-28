@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import javax.sql.DataSource;
+
 /**
  * Created by Saef Rahal on 5/26/2021.
  */
@@ -20,6 +22,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
 
+    private DataSource dataSource;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -53,6 +56,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("saef").password(passwordEncoder().encode("rahal@123")).roles("USER","ADMIN");
     }
+
+    /*
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username,password,status "
+                        + "from company_accounts "
+                        + "where username = ?")
+                .authoritiesByUsernameQuery("select company_accounts.username, roles.name "
+                        + "from company_accounts,roles"
+                        + "where company_accounts.username = ?");
+    }
+    */
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
